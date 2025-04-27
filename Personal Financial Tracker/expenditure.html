@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Personal Financial Tracker</title>
+    <link rel="icon" type="image" href="/images/fina.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bokor&family=Bungee+Spice&family=Clicker+Script&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Dancing+Script:wght@400..700&family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Lobster&family=Pacifico&family=Pirata+One&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+AU+SA:wght@100..400&family=Playwrite+IN+Guides&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Satisfy&family=Shadows+Into+Light&family=Spicy+Rice&family=Tangerine:wght@400;700&family=Yatra+One&display=swap');
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #0b0b0b;
+           /* background: linear-gradient(180deg, rgba(138,162,252,1) 0%, rgba(213,245,255,1) 100%);*/
+           background-color: #c1edff;
+        }
+
+        /* Header */
+        header {
+            background-color: #050C9C;
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .nav-margin{
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .header-h{
+            font-family: "Yatra One", serif;    
+            padding-left: 20%;
+        }
+
+        @media only screen and (max-width: 545px){
+            .header-h{
+                padding-left: 0%;
+                font-size: 18px;
+            }
+        }
+
+        @media only screen and (max-width:768px){
+            .header-h{
+                font-size: 20px;
+                padding-left:0%;
+            }
+        }
+
+        @media only screen and (max-width:1024px){
+            .header-h{
+                font-size: 25px;
+                padding-left:5%;
+            }
+        }
+
+        header .logo img {
+            width: 100px;
+            margin-right: 10px;
+            border-radius: 50px;
+        }
+        @media only screen and (max-width:545px){
+            header .logo img {
+                width: 50px;
+                margin-right: 2px;
+                margin-left: 3%;
+            }
+        }
+
+        .nav-link{
+            color:white;
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        header nav a {
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+            color: #ca46d1;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+           /* background: rgba(255, 255, 255, 0.3);*/
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #3572EF;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            font-family: "Playfair Display", serif;
+        }
+
+        #summary {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            color: #131212;
+        }
+
+        #summary p {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #ffffff;
+            padding: 10%;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: solid 1px #ccc;
+            width: 60%;
+            margin-left: 20%;
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+
+        @media only screen and (max-width:768px){
+            form{
+                padding: 5%;
+                margin-left: 1%;
+            }
+        }
+
+        label {
+            font-size: 1.1em;
+            color: #030303;
+        }
+
+        input, select {
+            padding: 10px;
+            width: 100%;
+          
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        input, select {
+            background-color: #f8f9fa;
+        }
+
+        .btn1 {
+            background-color: #3ABEF9;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 6px;
+            border-radius: 7px;
+            font-size: 18px;
+        }
+
+        .btn1:hover {
+            background-color: #3572EF;
+            transform: translateY(-2px);
+        }
+
+        /* Expenditure Chart */
+        #expenditureChartContainer {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        canvas {
+            max-width: 600px; /* Reduced width */
+            height: 800px;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        @media only screen and (max-width:545px){
+            canvas{
+                max-width: 250px;
+            }
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        @media only screen and (max-width:545px){
+            th{
+                padding: 2px;
+                font-size: 15px;
+            }
+
+            td{
+                padding: 2px;
+                font-size: 10px;
+            }
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+            color: #121111;
+        }
+
+        /* Remove Button */
+        button.remove-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            width: 50%;
+        }
+
+        
+        @media only screen and (max-width:545px){
+            button.remove-btn{
+                padding: 2px;
+                width: 100%;
+            }
+        }
+
+        @media only screen and (width:768px){
+            button.remove-btn{
+                padding: 5px;
+                width: 100%;
+            }
+        }
+
+        button.remove-btn:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            form {
+                width: 100%;
+                padding: 15px;
+            }
+            input, select, btn1 {
+                width: 100%;
+            }
+        }
+
+        .exp-h3{
+            text-align: center;
+            padding-top: 3%;
+            padding-bottom: 3%;
+            font-family: "Playfair Display", serif;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #050C9C;
+            color: white;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        footer nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0px 10px;
+            font-size: 1rem;
+        }
+
+        footer nav a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand logo" href="#"><img src="images/fina.png" alt="Finance Tracker Logo"></a>
+                <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon "></span>
+                </button>
+                <div class="collapse navbar-collapse nav-margin" id="collapsibleNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" href="main.html">dashboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="Summary.html">Summary</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2>Your Expenditure Details</h2>
+        <div id="summary">
+            <p>Total Income: ₹<span id="totalIncomeValue">0</span></p>
+            <p>Total Expenditure: ₹<span id="totalExpenditureValue">0</span></p>
+        </div>
+        <form id="expenditureForm" aria-labelledby="expenditureFormLabel">
+            <span id="expenditureFormLabel" class="visually-hidden">Expenditure Input Form</span>
+            <label for="expenditureType">Expenditure Type:</label>
+            <select id="expenditureType" required>
+                <option value="Food">Food</option>
+                <option value="Rent">Rent</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Health">Health</option>
+                <option value="Education">Education</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Other">Other</option>
+            </select>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" required>
+            <label for="date">Date:</label>
+            <input type="date" id="date" required>
+            <button class="btn1" type="submit">Add Expenditure</button>
+        </form>
+        <div id="expenditureChartContainer">
+            <h3>Your Expenditure Summary</h3>
+            <canvas id="expenditureChart"></canvas>
+        </div>
+        <h3 class="exp-h3">Your Expenditure Details</h3>
+        <table id="expenditureTable">
+            <thead>
+                <tr>
+                    <th>Expenditure Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2024 Online Personal Finance Tracker. All rights reserved.</p>
+      </footer>
+       
+    <script>
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        let expenditureData = JSON.parse(localStorage.getItem(loggedInUser + '-expenditureData')) || [];
+        let expenditureChart;
+
+        // Fetch total income and display it
+        const totalIncome = parseFloat(localStorage.getItem(loggedInUser + '-totalIncome')) || 0;
+        document.getElementById('totalIncomeValue').innerText = totalIncome.toFixed(2);
+
+        // Calculate and display total expenditure
+        function calculateTotalExpenditure() {
+            let totalExpenditure = expenditureData.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+            document.getElementById('totalExpenditureValue').innerText = totalExpenditure.toFixed(2);
+
+            // Compare total expenditure with income
+            if (totalExpenditure > totalIncome) {
+                alert(`Warning: Your total expenditure of ₹${totalExpenditure.toFixed(2)} exceeds your total income of ₹${totalIncome.toFixed(2)}.`);
+            }
+
+            return totalExpenditure;
+        }
+
+        function updateChart() {
+            const expenditureTypeData = {};
+            expenditureData.forEach(expenditure => {
+                if (expenditureTypeData[expenditure.type]) {
+                    expenditureTypeData[expenditure.type] += parseFloat(expenditure.amount);
+                } else {
+                    expenditureTypeData[expenditure.type] = parseFloat(expenditure.amount);
+                }
+            });
+
+            const chartLabels = Object.keys(expenditureTypeData);
+            const chartData = Object.values(expenditureTypeData);
+
+            if (expenditureChart) {
+                expenditureChart.destroy();
+            }
+
+            expenditureChart = new Chart(document.getElementById('expenditureChart'), {
+                type: 'pie',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Expenditure Distribution',
+                        data: chartData,
+                        backgroundColor: [
+                                '#da938f', // Food
+                                '#66FF66', // Rent
+                                '#5577FF', // Utilities
+                                '#F1E15C', // Entertainment
+                                '#FF5CA6', // Transportation
+                                '#66C7FF', // Health
+                                '#FF9A47', // Education
+                                '#7F4BFF', // Shopping
+                                '#B1D733'  // Other
+                    ],
+
+
+
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                }
+            });
+        }
+
+        // Add expenditure to table
+        function addExpenditureToTable(expenditure) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${expenditure.type}</td>
+                <td>₹${parseFloat(expenditure.amount).toFixed(2)}</td>
+                <td>${expenditure.date}</td>
+                <td><button class="remove-btn" onclick="removeExpenditure(${expenditureData.indexOf(expenditure)})">Remove</button></td>
+            `;
+            document.querySelector('#expenditureTable tbody').appendChild(row);
+        }
+
+        // Remove expenditure from table and data
+        function removeExpenditure(index) {
+            if (confirm("Are you sure you want to remove this expenditure?")) {
+                expenditureData.splice(index, 1);
+                localStorage.setItem(loggedInUser + '-expenditureData', JSON.stringify(expenditureData));
+                calculateTotalExpenditure();
+                updateChart();
+                document.querySelector('#expenditureTable tbody').innerHTML = '';
+                expenditureData.forEach(addExpenditureToTable);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('expenditureForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const expenditureType = document.getElementById('expenditureType').value;
+            const amount = document.getElementById('amount').value;
+            const date = document.getElementById('date').value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid expenditure amount.");
+                return;
+            }
+
+            const expenditure = {
+                type: expenditureType,
+                amount: amount,
+                date: date
+            };
+
+            expenditureData.push(expenditure);
+            localStorage.setItem(loggedInUser + '-expenditureData', JSON.stringify(expenditureData));
+
+            calculateTotalExpenditure();
+            updateChart();
+            addExpenditureToTable(expenditure);
+
+            // Reset the form
+            document.getElementById('expenditureForm').reset();
+        });
+
+        // Initialize page with existing data
+        expenditureData.forEach(addExpenditureToTable);
+        calculateTotalExpenditure();
+        updateChart();
+    </script>
+</body>
+</html>

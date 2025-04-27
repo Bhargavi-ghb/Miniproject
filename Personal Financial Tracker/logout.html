@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Personal Financial Tracker</title>
+    <link rel="icon" type="image" href="/images/fina.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #a5e0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .logout-container {
+            background-color: white;
+            padding: 80px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            font-family: "Lobster", serif;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #36A2EB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #28a0d8;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logout-container">
+        <h2>You have been logged out</h2>
+        <button onclick="logout()">Go to Login</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        function logout() {
+            // Remove the logged-in user from localStorage
+            localStorage.removeItem('loggedInUser');
+
+            // Redirect the user to the login page
+            window.location.href = 'login.html';
+        }
+    </script>
+    
+</body>
+</html>

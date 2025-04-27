@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Online personal Financial Tracker</title>
+    <link rel="icon" type="image" href="/images/fina.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bokor&family=Bungee+Spice&family=Clicker+Script&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Dancing+Script:wght@400..700&family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Lobster&family=Pacifico&family=Pirata+One&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+AU+SA:wght@100..400&family=Playwrite+IN+Guides&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Satisfy&family=Shadows+Into+Light&family=Spicy+Rice&family=Tangerine:wght@400;700&family=Yatra+One&display=swap');
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #A7E6FF;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        
+        /* Header */
+    .header {
+        background-color: #050C9C;
+        color: #fff;
+        display: flex;
+        justify-content: space-between; /* Distribute space between h2 and logout button */
+        align-items: center; /* Vertically center content */
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dash-a{
+        text-decoration: none;
+        color: #fff;
+        padding-right: 5%;
+        font-size: 18px;
+    }
+
+    @media only screen and (max-width:545px){
+        .dash-a{
+            font-size: 10px;
+        }
+    }
+
+    .header h2 {
+        font-size: 30px;
+        letter-spacing: 1px;
+        flex-grow: 1; 
+        text-align: center;
+        font-family: "Playfair Display", serif;
+    }
+
+    .logout-btn {
+        background-color: #e74c3c;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .logout-btn:hover {
+        background-color: #c0392b;
+    }
+
+    
+
+        /* Main Container */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .summary-box {
+            background-color: #fff;
+            padding: 20px;
+            margin: 15px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(193, 23, 23, 0.1);
+            flex: 1;
+            min-width: 360px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .summary-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-box h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .summary-box p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3572EF;
+        }
+
+        .con-h3{
+            padding-bottom: 5%;
+            padding-top: 2%;
+            color: #000;
+            font-size: bold;
+            font-family: "Playfair Display", serif;
+        }
+
+        /* Tables */
+        .table-container {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3ABEF9;
+            color: #fff;
+            font-size: 25px;
+        }
+
+        td {
+            font-size: 18px;
+            color: #100f0f;
+        }
+
+        tr:hover {
+            background-color: #ecf0f1;
+        }
+
+        /* Media Queries for Mobile & Small Screens */
+        @media screen and (max-width: 1024px) {
+            .header h2 {
+                font-size: 26px;
+            }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .summary-box {
+                margin: 15px 0;
+                min-width: 80%;
+            }
+
+            .logout-btn {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+
+            /* Adjusting Tables for Smaller Screens */
+            table {
+                font-size: 14px;
+                margin-top: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .header h2 {
+                font-size: 22px;
+            }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .summary-box {
+                margin: 10px 0;
+                min-width: 70%;
+            }
+
+            .logout-btn {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+
+            table {
+                font-size: 12px;
+                margin-top: 20px;
+            }
+
+            th, td {
+                padding: 5px;
+            }
+
+            .summary-box h3 {
+                font-size: 15px;
+            }
+
+            .summary-box p {
+                font-size: 14px;
+            }
+        }
+
+        @media screen and (max-width: 545px) {
+            .header h2 {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .logout-btn {
+                font-size: 12px;
+                padding: 2px;
+            }
+
+            .summary-box h3 {
+                font-size: 14px;
+            }
+
+            .summary-box p {
+                font-size: 12px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th {
+                font-size: 8px;
+            }
+
+            td{
+                font-size:8px;
+            }
+
+
+            th, td {
+                padding: 2px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #050C9C;
+            color: white;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        footer nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0px 10px;
+            font-size: 1rem;
+        }
+
+        footer nav a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h2 class="header-h">Financial Summary</h2>
+        <a href="main.html" class="dash-a">Dashboard</a>
+        <a class="logout-btn" href="logout.html">Logout</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Summary Boxes -->
+        <div class="summary-box">
+            <h3>Total Income</h3>
+            <p id="total-income">₹0</p>
+        </div>
+        <div class="summary-box">
+            <h3>Total Expenditure</h3>
+            <p id="total-expenditure">₹0</p>
+        </div>
+        <div class="summary-box">
+            <h3>Total Savings</h3>
+            <p id="total-savings">₹0</p>
+        </div>
+        <div class="summary-box">
+            <h3>Total Lending</h3>
+            <p id="total-lending">₹0</p>
+        </div>
+        <div class="summary-box">
+            <h3>Total Refunding</h3>
+            <p id="total-refunding">₹0</p>
+        </div>
+        <div class="summary-box">
+            <h3>Balance</h3>
+            <p id="balance">₹0</p>
+        </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="container">
+        <h3 class="con-h3">Transaction History</h3>
+        <table id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Lender</th>
+                    <th>Borrower</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h3 class="con-h3">Monthly Summary</h3>
+        <table id="monthlySummaryTable">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Total Income</th>
+                    <th>Total Expenditure</th>
+                    <th>Total Savings</th>
+                    <th>Total Lending</th>
+                    <th>Total Refunding</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h3 class="con-h3">Yearly Summary</h3>
+        <table id="yearlySummaryTable">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Total Income</th>
+                    <th>Total Expenditure</th>
+                    <th>Total Savings</th>
+                    <th>Total Lending</th>
+                    <th>Total Refunding</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Online Personal Finance Tracker. All rights reserved.</p>
+      </footer>
+       
+
+    <!-- JavaScript -->
+    <script>
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        console.log("Logged In User:", loggedInUser);
+
+        // Fetch data from localStorage for all categories
+        const categories = ['income', 'expenditure', 'savings', 'lending', 'refunding'];
+        const data = {};
+        categories.forEach(category => {
+            data[category] = JSON.parse(localStorage.getItem(`${loggedInUser}-${category}Data`)) || [];
+        });
+
+        // Calculate totals for all categories
+        const calculateTotal = (data) => data.reduce((sum, item) => sum + parseFloat(item.amount), 0);
+        const totals = {};
+        categories.forEach(category => {
+            totals[category] = calculateTotal(data[category]);
+        });
+
+        const balance = totals.income - totals.expenditure - totals.savings + totals.refunding - totals.lending;
+
+        // Update UI with totals
+        document.getElementById('total-income').innerText = `₹${totals.income.toFixed(2)}`;
+        document.getElementById('total-expenditure').innerText = `₹${totals.expenditure.toFixed(2)}`;
+        document.getElementById('total-savings').innerText = `₹${totals.savings.toFixed(2)}`;
+        document.getElementById('total-lending').innerText = `₹${totals.lending.toFixed(2)}`;
+        document.getElementById('total-refunding').innerText = `₹${totals.refunding.toFixed(2)}`;
+        document.getElementById('balance').innerText = `₹${balance.toFixed(2)}`;
+
+        // Populate transaction table
+        const transactionTable = document.getElementById('transactionTable').getElementsByTagName('tbody')[0];
+        categories.forEach(category => {
+            data[category].forEach(transaction => {
+                const row = transactionTable.insertRow();
+                row.innerHTML = `
+                    <td>${transaction.date}</td>
+                    <td>${transaction.type || 'N/A'}</td>
+                    <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
+                    <td>${transaction.lenderName || 'N/A'}</td>
+                    <td>${transaction.borrowerName || 'N/A'}</td>
+                    <td>₹${parseFloat(transaction.amount).toFixed(2)}</td>
+                `;
+            });
+        });
+
+        // Group data by month for all categories
+        function groupByMonth() {
+            const monthlyData = {};
+            categories.forEach(category => {
+                data[category].forEach(item => {
+                    const date = new Date(item.date);
+                    const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+                    if (!monthlyData[monthYear]) {
+                        monthlyData[monthYear] = {
+                            income: 0,
+                            expenditure: 0,
+                            savings: 0,
+                            lending: 0,
+                            refunding: 0
+                        };
+                    }
+                    monthlyData[monthYear][category] += parseFloat(item.amount);
+                });
+            });
+            return monthlyData;
+        }
+
+        // Update Monthly Summary
+        function updateMonthlySummary() {
+            const monthlySummary = groupByMonth();
+            const summaryTableBody = document.getElementById('monthlySummaryTable').getElementsByTagName('tbody')[0];
+            summaryTableBody.innerHTML = '';
+            
+            // Sort the months in ascending order
+            const sortedMonths = Object.entries(monthlySummary).sort((a, b) => {
+                const [monthA, dataA] = a;
+                const [monthB, dataB] = b;
+                const [monthAValue, yearAValue] = monthA.split('/').map(num => parseInt(num));
+                const [monthBValue, yearBValue] = monthB.split('/').map(num => parseInt(num));
+                
+                // Compare year first, then month
+                return yearAValue - yearBValue || monthAValue - monthBValue;
+            });
+
+            // Populate the table with sorted data
+            sortedMonths.forEach(([month, data]) => {
+                const row = summaryTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${month}</td>
+                    <td>₹${data.income.toFixed(2)}</td>
+                    <td>₹${data.expenditure.toFixed(2)}</td>
+                    <td>₹${data.savings.toFixed(2)}</td>
+                    <td>₹${data.lending.toFixed(2)}</td>
+                    <td>₹${data.refunding.toFixed(2)}</td>
+                    <td>₹${(data.income - data.expenditure - data.savings + data.refunding - data.lending).toFixed(2)}</td>
+                `;
+            });
+        }
+
+        // Initialize monthly summary
+        updateMonthlySummary();
+
+        // Group data by year for yearly summary
+        function groupByYear() {
+            const yearlyData = {};
+            categories.forEach(category => {
+                data[category].forEach(item => {
+                    const date = new Date(item.date);
+                    const year = date.getFullYear();
+                    if (!yearlyData[year]) {
+                        yearlyData[year] = {
+                            income: 0,
+                            expenditure: 0,
+                            savings: 0,
+                            lending: 0,
+                            refunding: 0
+                        };
+                    }
+                    yearlyData[year][category] += parseFloat(item.amount);
+                });
+            });
+            return yearlyData;
+        }
+
+        // Update Yearly Summary
+        function updateYearlySummary() {
+            const yearlySummary = groupByYear();
+            const yearlySummaryTableBody = document.getElementById('yearlySummaryTable').getElementsByTagName('tbody')[0];
+            yearlySummaryTableBody.innerHTML = '';
+
+            // Sort the years in ascending order
+            const sortedYears = Object.entries(yearlySummary).sort((a, b) => a[0] - b[0]);
+
+            // Populate the table with sorted data
+            sortedYears.forEach(([year, data]) => {
+                const row = yearlySummaryTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${year}</td>
+                    <td>₹${data.income.toFixed(2)}</td>
+                    <td>₹${data.expenditure.toFixed(2)}</td>
+                    <td>₹${data.savings.toFixed(2)}</td>
+                    <td>₹${data.lending.toFixed(2)}</td>
+                    <td>₹${data.refunding.toFixed(2)}</td>
+                    <td>₹${(data.income - data.expenditure - data.savings + data.refunding - data.lending).toFixed(2)}</td>
+                `;
+            });
+        }
+
+        // Initialize yearly summary
+        updateYearlySummary();
+
+        // Logout Function
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

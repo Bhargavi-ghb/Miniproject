@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Lending and Refunding</title>
+    <style>
+     @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bokor&family=Bungee+Spice&family=Clicker+Script&family=Dancing+Script:wght@400..700&family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Pacifico&family=Pirata+One&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+AU+SA:wght@100..400&family=Playwrite+IN+Guides&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Satisfy&family=Shadows+Into+Light&family=Spicy+Rice&family=Tangerine:wght@400;700&family=Yatra+One&display=swap');
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #A7E6FF;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        /* Header */
+        header {
+            background-color: #050C9C;
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .nav-margin{
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        header .logo img {
+            width: 100px;
+            margin-right: 10px;
+            border-radius: 50px;
+        }
+
+        @media only screen and (max-width:545px){
+            header .logo img {
+                width: 50px;
+                margin-right: 2px;
+            }
+        }
+
+        .nav-link{
+            color:white;
+            font-weight: bold;
+            font-size: 23px;
+        }
+
+        header nav a {
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+            color: #ca46d1;
+        }
+
+        .main-h2{
+            text-align: center;
+            margin-bottom: 3%;
+            margin-top: 3%;
+            font-family: "Yatra One", serif;   
+            color:#000;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        .form-container h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            color: #333;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px 15px;
+            font-size: 1.1em;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container button:focus {
+            border-color: #3b7dda;
+            outline: none;
+        }
+        .form-container button {
+            background-color: #3b7dda;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+        .form-container button:hover {
+            background-color: #1a5cb7;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        td{
+            color: #000;
+        }
+
+        @media only screen and (max-width:545px){
+            th{
+                padding: 2px;
+                font-size: 10px;
+            }
+
+            td{
+                padding: 2px;
+                font-size: 10px;
+            }
+        }
+        th {
+            background-color: #3b7dda;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .remove-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        @media only screen and (max-width:545px){
+            .remove-btn{
+                padding: 4px;
+                font-size: 10px;
+            }
+        }
+        .remove-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .tran-h3{
+            text-align: center;
+            margin-bottom: 5%;
+            margin-top: 3%;
+            color:#000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light">
+          <div class="container-fluid">
+            <a class="navbar-brand logo" href="#"><img src="images/fina.png" alt="Finance " ></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse nav-margin" id="collapsibleNavbar">
+              <ul class="navbar-nav" >
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">Home</a>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="main.html">Dashboard</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="Summary.html">Summary</a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    </header>
+    <h2 class="main-h2">Lending and Refunding</h2>
+    <div class="container">
+        <!-- Form to Add Transactions -->
+        <div class="form-container">
+            <h3>Add Transaction</h3>
+            <select id="transaction-type">
+                <option value="Lending">Lending</option>
+                <option value="Refunding">Refunding</option>
+            </select>
+            <input type="date" id="transaction-date" required />
+            <input type="number" id="transaction-amount" placeholder="Amount (₹)" required />
+            <input type="text" id="lender-name" placeholder="Lender Name" required />
+            <input type="text" id="borrower-name" placeholder="Borrower Name" required />
+            <input type="text" id="transaction-description" placeholder="Description (optional)" />
+            <button onclick="addTransaction()">Add Transaction</button>
+        </div>
+
+        <!-- Display Transactions -->
+        <div class="transaction-table">
+            <h3 class="tran-h3">Transaction History</h3>
+            <table id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Lender</th>
+                        <th>Borrower</th>
+                        <th>Balance</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        const lendingDataKey = `${loggedInUser}-lendingData`;
+        const refundingDataKey = `${loggedInUser}-refundingData`;
+
+        let lendingData = JSON.parse(localStorage.getItem(lendingDataKey)) || [];
+        let refundingData = JSON.parse(localStorage.getItem(refundingDataKey)) || [];
+
+        function calculateBalances() {
+            const balances = {};
+            lendingData.forEach(transaction => {
+                const key = `${transaction.lenderName}-${transaction.borrowerName}`;
+                balances[key] = (balances[key] || 0) + transaction.amount;
+            });
+
+            refundingData.forEach(transaction => {
+                const key = `${transaction.lenderName}-${transaction.borrowerName}`;
+                balances[key] = (balances[key] || 0) - transaction.amount;
+            });
+
+            return balances;
+        }
+
+        function addTransaction() {
+            const type = document.getElementById('transaction-type').value;
+            const date = document.getElementById('transaction-date').value;
+            const amount = parseFloat(document.getElementById('transaction-amount').value);
+            const lenderName = document.getElementById('lender-name').value.trim();
+            const borrowerName = document.getElementById('borrower-name').value.trim();
+            const description = document.getElementById('transaction-description').value.trim();
+
+            if (!date || amount <= 0 || !lenderName || !borrowerName) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const newTransaction = {
+                id: Date.now(),
+                type,
+                date,
+                amount,
+                lenderName,
+                borrowerName,
+                description: description || '-'
+            };
+
+            if (type === 'Lending') {
+                lendingData.push(newTransaction);
+                localStorage.setItem(lendingDataKey, JSON.stringify(lendingData));
+            } else if (type === 'Refunding') {
+                const balances = calculateBalances();
+                const key = `${lenderName}-${borrowerName}`;
+                if (!balances[key] || balances[key] < amount) {
+                    alert(`Refund exceeds the outstanding balance! Current balance: ₹${balances[key] || 0}.`);
+                    return;
+                }
+                refundingData.push(newTransaction);
+                localStorage.setItem(refundingDataKey, JSON.stringify(refundingData));
+                const updatedBalances = calculateBalances();
+                if (updatedBalances[key] > 0) {
+                    alert(`Refund successful! The borrower still owes ₹${updatedBalances[key].toFixed(2)} to the lender.`);
+                } else {
+                    alert(`Full payment has been made. No balance remaining.`);
+                }
+            }
+
+            document.getElementById('transaction-date').value = '';
+            document.getElementById('transaction-amount').value = '';
+            document.getElementById('lender-name').value = '';
+            document.getElementById('borrower-name').value = '';
+            document.getElementById('transaction-description').value = '';
+
+            populateTransactions();
+        }
+
+        function removeTransaction(id, type) {
+            if (type === 'Lending') {
+                lendingData = lendingData.filter(transaction => transaction.id !== id);
+                localStorage.setItem(lendingDataKey, JSON.stringify(lendingData));
+            } else if (type === 'Refunding') {
+                refundingData = refundingData.filter(transaction => transaction.id !== id);
+                localStorage.setItem(refundingDataKey, JSON.stringify(refundingData));
+            }
+
+            populateTransactions();
+        }
+
+        function populateTransactions() {
+            const transactionTable = document.getElementById('transactionTable').getElementsByTagName('tbody')[0];
+            transactionTable.innerHTML = '';
+
+            const allTransactions = [
+                ...lendingData.map(item => ({ ...item, category: 'Lending' })),
+                ...refundingData.map(item => ({ ...item, category: 'Refunding' }))
+            ];
+
+            const balances = calculateBalances();
+
+            allTransactions.sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(transaction => {
+                const balanceKey = `${transaction.lenderName}-${transaction.borrowerName}`;
+                const balance = balances[balanceKey] || 0;
+
+                const row = transactionTable.insertRow();
+                row.innerHTML = `
+                    <td>${transaction.date}</td>
+                    <td>${transaction.category}</td>
+                    <td>₹${transaction.amount.toFixed(2)}</td>
+                    <td>${transaction.lenderName}</td>
+                    <td>${transaction.borrowerName}</td>
+                    <td>₹${balance.toFixed(2)}</td>
+                    <td><button class="remove-btn" onclick="removeTransaction(${transaction.id}, '${transaction.category}')">Remove</button></td>
+                `;
+            });
+        }
+
+        populateTransactions();
+    </script>
+</body>
+</html>
